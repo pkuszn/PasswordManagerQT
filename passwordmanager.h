@@ -5,6 +5,7 @@
 
 #include <QItemSelection>
 #include <QMainWindow>
+#include <QTableView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PasswordManager; }
@@ -20,7 +21,7 @@ public:
 
 private slots:
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
-
+    void setColumnWidth(int size);
 private:
     Ui::PasswordManager *ui;
     PasswordsModel model;

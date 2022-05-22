@@ -10,10 +10,11 @@ PasswordManager::PasswordManager(QWidget *parent) :
     ui(new Ui::PasswordManager),
     model()
 {
+
     ui->setupUi(this);
     setWindowTitle("PasswordManager");
     ui->tableView->setModel(&model);
-
+    setColumnWidth(ui->tableView->width()-5);
     QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
      connect(selectionModel, &QItemSelectionModel::selectionChanged,
              this, &PasswordManager::onSelectionChanged);
@@ -40,5 +41,13 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
     ui->label_5->setText(login);
     QString password = index.data(2).toString();
     ui->label_4->setText(password);
+}
+
+void PasswordManager::setColumnWidth(int size)
+{
+    for (int col=0; col<20; col++)
+    {
+       ui->tableView->setColumnWidth(col,size);
+    }
 }
 

@@ -4,7 +4,11 @@
 PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
 {
-
+    passwordList
+              << *new Password("mBank", "patryk98", ":12345")
+              << *new Password("Facebook", "mokoloko", "435425")
+              << *new Password("PayPal", "mitoman111", "flags123")
+              << *new Password("pobieraczek.com", "Washington, D.CxD", "asdsadasd");
 }
 
 PasswordsModel::PasswordsModel(const QVector<Password> &passwords, QObject *parent)
@@ -21,7 +25,7 @@ int PasswordsModel::rowCount(const QModelIndex &parent) const
 
 int PasswordsModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() ? 0 : 2;
+    return parent.isValid() ? 0 : 1;
 }
 
 QVariant PasswordsModel::data(const QModelIndex& index, int role) const
@@ -33,13 +37,13 @@ QVariant PasswordsModel::data(const QModelIndex& index, int role) const
     if(index.row() >= passwordList.size() || index.row() < 0) {
         return QVariant();
     }
-    switch(index.column()){
+    switch(role){
         case ManagerEnum::SERVICE:
             return password.service;
         case ManagerEnum::LOGIN:
-            return password.service;
+            return password.login;
         case ManagerEnum::PASSWORD:
-            return password.service;
+            return password.password;
         default:
             break;
     }
@@ -57,8 +61,6 @@ QVariant PasswordsModel::headerData(int section, Qt::Orientation orientation, in
         {
         case 0:
             return tr("Service");
-        case 1:
-            return tr("Login");
         }
     }
     return QVariant();

@@ -19,6 +19,16 @@ struct Password
     }
 };
 
+inline QDataStream &operator<<(QDataStream &stream, const Password &password)
+{
+    return stream << password.service << password.login << password.password;
+}
+
+inline QDataStream &operator>>(QDataStream &stream, Password &password)
+{
+    return stream >> password.service >> password.login >> password.password;
+}
+
 class PasswordsModel : public QAbstractTableModel {
     Q_OBJECT
 public:
