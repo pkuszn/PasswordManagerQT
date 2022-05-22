@@ -5,6 +5,7 @@
 #include <QColor>
 #include <ui_newinstancedialog.h>
 #include <QItemSelection>
+#include "infodialog.h"
 #include "passwordsmodel.h"
 #include <QtAlgorithms>
 
@@ -50,7 +51,13 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
     QString login = index.data(1).toString();
     ui->label_4->setText(login);
-    QString password = index.data(2).toString();
+    QString password;
+    if(ui->radioButton->isChecked()){
+        password = model.maskPassword();
+    }
+    else{
+        password = index.data(2).toString();
+    }
     ui->label_5->setText(password);
 }
 
@@ -106,5 +113,13 @@ void PasswordManager::on_actionClear_all_triggered()
     if(ui->tableView){
         model.removeAllData();
     }
+}
+
+
+void PasswordManager::on_actionAbout_author_triggered()
+{
+    InfoDialog *dlg = new InfoDialog();
+    dlg->setAttribute(Qt::WA_DeleteOnClose);
+    dlg->show();
 }
 

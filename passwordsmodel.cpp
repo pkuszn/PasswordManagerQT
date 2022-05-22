@@ -76,15 +76,40 @@ Qt::ItemFlags PasswordsModel::flags(const QModelIndex &index) const
 
 bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    return false;
+    if (index.isValid() && role == Qt::EditRole && !(index.row() >= passwordList.size() || index.row() < 0))
+        {
+            int row = index.row();
+
+            switch(index.column())
+            {
+            case 0:
+                passwordList[row].service = value.toString();
+                break;
+            case 1:
+                passwordList[row].login = value.toString();
+                break;
+            case 2:
+                passwordList[row].password = value.toString();
+                break;
+            default:
+                return false;
+            }
+            emit dataChanged(index, index);
+            return true;
+        }
+        return false;
+}
+
+
+
+bool PasswordsModel::EditEntity(int index){
+
+
 }
 
 void PasswordsModel::addEntity(Password password)
 {
-    if(passwordList.count() == 0 || password.service == nullptr){
-        return;
-    }
-    beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size() + 9);
+    beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size() + 1);
     passwordList.append(password);
     endInsertRows();
 }
@@ -114,11 +139,6 @@ void PasswordsModel::removePassword(int index)
 
 
 
-bool PasswordsModel::EditEntity(int index){
-
-
-}
-
 bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index)
 {
     Q_UNUSED(index);
@@ -138,5 +158,10 @@ bool PasswordsModel::removeRows(int position, int rows, const QModelIndex &index
 const QVector<Password> &PasswordsModel::getPasswords() const
 {
     return passwordList;
+}
+
+QString PasswordsModel::maskPassword(){
+    QString password = "*************";
+    return password;
 }
 

@@ -32,6 +32,8 @@ private slots:
 
     void on_actionClear_all_triggered();
 
+    void on_actionAbout_author_triggered();
+
 private:
     Ui::PasswordManager *ui;
     PasswordsModel model;
