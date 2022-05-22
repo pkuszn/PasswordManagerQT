@@ -49,6 +49,7 @@ public:
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex()) override;
     const QVector<Password> &getPasswords() const;
 
+    void addEntity(Password password);
 private:
     QVector<Password> passwordList;
 private slots:

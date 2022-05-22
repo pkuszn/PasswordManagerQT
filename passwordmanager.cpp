@@ -29,6 +29,15 @@ PasswordManager::~PasswordManager()
     delete ui;
 }
 
+void PasswordManager::configure(){
+    setWindowTitle("PasswordManager");
+    setLabel(*ui->label, 25, true, Qt::blue);
+    ui->tableView->setModel(&model);
+    setColumnWidth(ui->tableView->width()-5);
+    setLabel(*ui->label_6, 20, true, nullptr);
+    setLabel(*ui->label_7, 20, true, nullptr);
+}
+
 void PasswordManager::onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
 
@@ -68,14 +77,6 @@ void PasswordManager::setLabel(QLabel &label, int size, bool bold, QColor color)
     ui->label->setPalette(palette);
 }
 
-void PasswordManager::configure(){
-    setWindowTitle("PasswordManager");
-    setLabel(*ui->label, 25, true, Qt::blue);
-    ui->tableView->setModel(&model);
-    setColumnWidth(ui->tableView->width()-5);
-    setLabel(*ui->label_6, 20, true, nullptr);
-    setLabel(*ui->label_7, 20, true, nullptr);
-}
 
 void PasswordManager::on_pushButton_clicked()
 {
@@ -87,9 +88,7 @@ void PasswordManager::on_pushButton_clicked()
 
 void PasswordManager::on_textEdited(QString service, QString login, QString password)
 {
-    ui->label_8->setText(service);
-    ui->label_8->setText(login);
-    ui->label_8->setText(password);
-
+    const auto& passwordEntity = new Password(service, login, password);
+    model.addEntity(*passwordEntity);
 }
 
