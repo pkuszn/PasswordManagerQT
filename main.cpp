@@ -1,5 +1,7 @@
 #include "passwordmanager.h"
+#include "ui_passwordmanager.h"
 #include <QApplication>
+#include "passwordsmodel.h"
 
 int main(int argc, char *argv[])
 {

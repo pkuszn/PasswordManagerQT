@@ -15,7 +15,7 @@ class PasswordManager : public QMainWindow
     Q_OBJECT
 
 public:
-    PasswordManager(QWidget *parent = nullptr);
+    PasswordManager(QWidget *parent = 0);
     ~PasswordManager();
 
 private slots:

@@ -5,6 +5,21 @@
 #include "passwordsmodel.h"
 
 
+PasswordManager::PasswordManager(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::PasswordManager),
+    model()
+{
+    ui->setupUi(this);
+    setWindowTitle("PasswordManager");
+    ui->tableView->setModel(&model);
+
+    QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
+     connect(selectionModel, &QItemSelectionModel::selectionChanged,
+             this, &PasswordManager::onSelectionChanged);
+
+}
+
 PasswordManager::~PasswordManager()
 {
     delete ui;

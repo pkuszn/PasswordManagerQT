@@ -1,6 +1,12 @@
 #include "passwordsmodel.h"
 #include <QDebug>
 
+PasswordsModel::PasswordsModel(QObject *parent)
+    :QAbstractTableModel(parent)
+{
+
+}
+
 PasswordsModel::PasswordsModel(const QVector<Password> &passwords, QObject *parent)
     : QAbstractTableModel(parent),
       passwordList(passwords)
@@ -28,16 +34,15 @@ QVariant PasswordsModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
     switch(index.column()){
-        case PasswordEnums::SERVICE:
+        case ManagerEnum::SERVICE:
             return password.service;
-        case PasswordEnums::LOGIN:
+        case ManagerEnum::LOGIN:
             return password.service;
-        case PasswordEnums::PASSWORD:
+        case ManagerEnum::PASSWORD:
             return password.service;
         default:
             break;
     }
-
     return QVariant();
 }
 
@@ -53,8 +58,6 @@ QVariant PasswordsModel::headerData(int section, Qt::Orientation orientation, in
         case 0:
             return tr("Service");
         case 1:
-            return tr("Password");
-        case 2:
             return tr("Login");
         }
     }
@@ -63,16 +66,13 @@ QVariant PasswordsModel::headerData(int section, Qt::Orientation orientation, in
 
 Qt::ItemFlags PasswordsModel::flags(const QModelIndex &index) const
 {
-    if (!index.isValid())
-        return Qt::ItemIsEnabled;
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    return !index.isValid() ? Qt::ItemIsEnabled : (QAbstractTableModel::flags(index) | Qt::ItemIsEditable);
 }
 
 bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     return false;
 }
-
 
 bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index)
 {

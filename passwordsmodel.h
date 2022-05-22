@@ -22,9 +22,10 @@ struct Password
 class PasswordsModel : public QAbstractTableModel {
     Q_OBJECT
 public:
-    enum PasswordEnums {
+    enum ManagerEnum {
          SERVICE=0, LOGIN, PASSWORD
      };
+    PasswordsModel(QObject *parent = 0);
     PasswordsModel(const QVector<Password> &contacts, QObject *parent = 0);
 
     int rowCount(const QModelIndex &parent) const override;
