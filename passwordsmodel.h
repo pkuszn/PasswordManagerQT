@@ -51,6 +51,7 @@ public:
 
 private:
     QVector<Password> passwordList;
+private slots:
 
 };
 

@@ -80,6 +80,16 @@ void PasswordManager::configure(){
 void PasswordManager::on_pushButton_clicked()
 {
     NewInstanceDialog *dialog = new NewInstanceDialog();
+    connect(dialog, &NewInstanceDialog::sendInstance, this, &PasswordManager::on_textEdited);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
+}
+
+void PasswordManager::on_textEdited(QString service, QString login, QString password)
+{
+    ui->label_8->setText(service);
+    ui->label_8->setText(login);
+    ui->label_8->setText(password);
+
 }
 
