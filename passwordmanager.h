@@ -3,6 +3,7 @@
 
 #include "passwordsmodel.h"
 
+#include <NewInstanceDialog.h>
 #include <QItemSelection>
 #include <QMainWindow>
 #include <QTableView>
@@ -21,9 +22,14 @@ public:
 
 private slots:
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    void configure();
     void setColumnWidth(int size);
+    void setLabel(QLabel& label, int size, bool bold = false, QColor color = false);
+    void on_pushButton_clicked();
+
 private:
     Ui::PasswordManager *ui;
     PasswordsModel model;
+    NewInstanceDialog *dialog;
 };
 #endif // PASSWORDMANAGER_H

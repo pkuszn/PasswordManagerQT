@@ -10,14 +10,19 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
+    newinstancedialog.cpp \
+    passworddomain.cpp \
     passwordmanager.cpp \
     passwordsmodel.cpp
 
 HEADERS += \
+    newinstancedialog.h \
+    passworddomain.h \
     passwordmanager.h \
     passwordsmodel.h
 
 FORMS += \
+    newinstancedialog.ui \
     passwordmanager.ui
 
 # Default rules for deployment.

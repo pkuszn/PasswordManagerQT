@@ -4,7 +4,8 @@
 #include <QLabel>
 #include <QVector>
 #include <QAbstractTableModel>
-
+#include <passwordinterface.h>
+#include <qplugin.h>
 struct Password
 {
     QString service;
