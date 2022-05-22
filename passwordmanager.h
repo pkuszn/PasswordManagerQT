@@ -28,6 +28,7 @@ private slots:
     void on_pushButton_clicked();
     void on_textEdited(QString service, QString login, QString password);
 
+    void on_pushButton_3_clicked();
 
 private:
     Ui::PasswordManager *ui;

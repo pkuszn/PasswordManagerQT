@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QColor>
 #include <ui_newinstancedialog.h>
+#include <QItemSelection>
 #include "passwordsmodel.h"
 
 
@@ -17,11 +18,8 @@ PasswordManager::PasswordManager(QWidget *parent) :
 
     configure();
     QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
-     connect(selectionModel, &QItemSelectionModel::selectionChanged,
-             this, &PasswordManager::onSelectionChanged);
-
-
-
+    connect(selectionModel, &QItemSelectionModel::selectionChanged,
+            this, &PasswordManager::onSelectionChanged);
 }
 
 PasswordManager::~PasswordManager()
@@ -59,7 +57,7 @@ void PasswordManager::setColumnWidth(int size)
 {
     for (int col=0; col<20; col++)
     {
-       ui->tableView->setColumnWidth(col,size);
+        ui->tableView->setColumnWidth(col,size);
     }
 }
 
@@ -90,5 +88,14 @@ void PasswordManager::on_textEdited(QString service, QString login, QString pass
 {
     const auto& passwordEntity = new Password(service, login, password);
     model.addEntity(*passwordEntity);
+}
+
+
+void PasswordManager::on_pushButton_3_clicked()
+{
+    if(ui->tableView){
+        QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+        model.removePassword(currentIndex.row());
+    }
 }
 
