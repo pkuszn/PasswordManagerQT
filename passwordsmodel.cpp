@@ -1,6 +1,8 @@
 #include "passwordsmodel.h"
 #include <QDebug>
+#include <QItemSelection>
 #include <QString>
+#include <cstdlib>
 
 PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
@@ -87,6 +89,19 @@ void PasswordsModel::addEntity(Password password)
     endInsertRows();
 }
 
+bool PasswordsModel::removeAllData()
+{
+    if(passwordList.count() < 0){
+        return false;
+    }
+    int beginRow = 0;
+    int endRow = beginRow + passwordList.size()-1;
+    beginRemoveRows(QModelIndex(), beginRow, endRow);
+    passwordList.clear();
+    endRemoveRows();
+    return true;
+}
+
 void PasswordsModel::removePassword(int index)
 {
     if(index < 0){
@@ -97,20 +112,11 @@ void PasswordsModel::removePassword(int index)
     endRemoveRows();
 }
 
-bool PasswordsModel::removeAllData()
-{
-    bool AreDeleted = passwordList.count() == 0 ? false : true;
-    if(AreDeleted){
-        beginResetModel();
-        for(int i = 0; i<passwordList.size(); i++){
-            passwordList.removeAt(i);
-        }
-        if(passwordList.size() == 0){
-            AreDeleted = true;
-        }
-        endResetModel();
-    }
-    return AreDeleted;
+
+
+bool PasswordsModel::EditEntity(int index){
+
+
 }
 
 bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index)

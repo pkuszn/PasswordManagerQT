@@ -30,6 +30,8 @@ private slots:
 
     void on_pushButton_3_clicked();
 
+    void on_actionClear_all_triggered();
+
 private:
     Ui::PasswordManager *ui;
     PasswordsModel model;

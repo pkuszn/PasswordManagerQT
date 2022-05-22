@@ -51,6 +51,7 @@ public:
     void addEntity(Password password);
     bool removeAllData();
     void removePassword(int index);
+    bool EditEntity(int index);
 private:
     QVector<Password> passwordList;
 private slots:

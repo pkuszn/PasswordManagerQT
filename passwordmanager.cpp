@@ -6,6 +6,7 @@
 #include <ui_newinstancedialog.h>
 #include <QItemSelection>
 #include "passwordsmodel.h"
+#include <QtAlgorithms>
 
 
 PasswordManager::PasswordManager(QWidget *parent) :
@@ -96,6 +97,14 @@ void PasswordManager::on_pushButton_3_clicked()
     if(ui->tableView){
         QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
         model.removePassword(currentIndex.row());
+    }
+}
+
+
+void PasswordManager::on_actionClear_all_triggered()
+{
+    if(ui->tableView){
+        model.removeAllData();
     }
 }
 
