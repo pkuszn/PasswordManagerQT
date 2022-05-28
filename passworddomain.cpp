@@ -1,5 +1,9 @@
 #include "passworddomain.h"
 #include <stdlib.h>
+#include <qdebug.h>
+#include <qstring.h>
+
+const char alphanum[] = "0123456789!@#$%^&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 PasswordDomain::PasswordDomain()
 {
@@ -22,19 +26,19 @@ void PasswordDomain::setPassword(const QString &newPassword)
 
 QString PasswordDomain::generatePassword()
 {
-    srand(time(NULL));
-
-    int targetLengthPassword = rand() & 50 + 8;
+    const char alphanum[] = "0123456789!@#$%^&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    srand(time(0));
+    int targetLengthPassword = 15;
+    int charArrayLength = sizeof(alphanum)-1;
     char generatedPasswordCharArray[targetLengthPassword];
-    for(int i = 0; i<=targetLengthPassword; i++){
-        generatedPasswordCharArray[i] = convertAsciiToChar(rand() & 33 + 93);
+    for(int i = 0; i<targetLengthPassword; i++){
+        generatedPasswordCharArray[i] = alphanum[rand() & charArrayLength];
     }
-    QString generatedPassword(generatedPasswordCharArray);
+    qDebug() << generatedPasswordCharArray;
+    QString generatedPassword = QString::fromLatin1(generatedPasswordCharArray);
+    qDebug() << QString::fromLatin1(generatedPasswordCharArray);
     return generatedPassword;
 }
 
-char PasswordDomain::convertAsciiToChar(int number)
-{
-    char value = char(number);
-    return value;
-}
+
+

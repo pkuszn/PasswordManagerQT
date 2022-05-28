@@ -17,7 +17,7 @@ public:
 
 private:
     QString generatePassword();
-    char convertAsciiToChar(int number);
+
 };
 
 #endif // PASSWORDDOMAIN_H
