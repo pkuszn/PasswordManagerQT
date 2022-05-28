@@ -3,7 +3,8 @@
 
 #include "passwordsmodel.h"
 
-#include <NewInstanceDialog.h>
+#include <editwidget.h>
+#include <newinstancedialog.h>
 #include <QItemSelection>
 #include <QMainWindow>
 #include <QTableView>
@@ -34,9 +35,15 @@ private slots:
 
     void on_actionAbout_author_triggered();
 
+    void on_pushButton_2_clicked();
+
+signals:
+    void sendInstanceToEdit(QString service, QString login, QString password);
+
 private:
     Ui::PasswordManager *ui;
     PasswordsModel model;
     NewInstanceDialog *dialog;
+    EditWidget *editWidget = nullptr;
 };
 #endif // PASSWORDMANAGER_H

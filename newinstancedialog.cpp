@@ -10,6 +10,7 @@ NewInstanceDialog::NewInstanceDialog(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(close()));
 
+
 }
 
 NewInstanceDialog::~NewInstanceDialog()

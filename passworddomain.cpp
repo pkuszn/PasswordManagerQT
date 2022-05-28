@@ -3,8 +3,6 @@
 #include <qdebug.h>
 #include <qstring.h>
 
-const char alphanum[] = "0123456789!@#$%^&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 PasswordDomain::PasswordDomain()
 {
     setPassword(generatePassword());
@@ -24,6 +22,7 @@ void PasswordDomain::setPassword(const QString &newPassword)
     password = newPassword;
 }
 
+//TODO: Improve generating passwords
 QString PasswordDomain::generatePassword()
 {
     const char alphanum[] = "0123456789!@#$%^&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

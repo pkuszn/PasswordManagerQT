@@ -160,6 +160,7 @@ const QVector<Password> &PasswordsModel::getPasswords() const
     return passwordList;
 }
 
+//TODO: mask password return masked password with the same length like original
 QString PasswordsModel::maskPassword(){
     QString password = "*************";
     return password;

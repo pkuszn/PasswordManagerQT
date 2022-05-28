@@ -7,7 +7,10 @@
 #include <QItemSelection>
 #include "infodialog.h"
 #include "passwordsmodel.h"
+#include <editwidget.h>
 #include <QtAlgorithms>
+#include <editwidget.h>
+
 
 
 PasswordManager::PasswordManager(QWidget *parent) :
@@ -17,11 +20,12 @@ PasswordManager::PasswordManager(QWidget *parent) :
 {
 
     ui->setupUi(this);
-
     configure();
     QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &PasswordManager::onSelectionChanged);
+
+
 }
 
 PasswordManager::~PasswordManager()
@@ -121,5 +125,23 @@ void PasswordManager::on_actionAbout_author_triggered()
     InfoDialog *dlg = new InfoDialog();
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
+}
+
+
+void PasswordManager::on_pushButton_2_clicked()
+{
+    QString service, login, password;
+    if(ui->tableView){
+        QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+        service = currentIndex.data(0).toString();
+        login = currentIndex.data(1).toString();
+        password = currentIndex.data(2).toString();
+        qDebug() << service << login << password;
+        EditWidget *editWidget = new EditWidget();
+        connect(this, &PasswordManager::sendInstanceToEdit, editWidget, &EditWidget::on_receivedText);
+        emit sendInstanceToEdit(service, login, password);
+        editWidget->show();
+    }
+
 }
 
