@@ -130,16 +130,11 @@ void PasswordManager::on_actionAbout_author_triggered()
 
 void PasswordManager::on_pushButton_2_clicked()
 {
-    QString service, login, password;
     if(ui->tableView){
         QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
-        service = currentIndex.data(0).toString();
-        login = currentIndex.data(1).toString();
-        password = currentIndex.data(2).toString();
-        qDebug() << service << login << password;
         EditWidget *editWidget = new EditWidget();
         connect(this, &PasswordManager::sendInstanceToEdit, editWidget, &EditWidget::on_receivedText);
-        emit sendInstanceToEdit(service, login, password);
+        emit sendInstanceToEdit(currentIndex.data(0).toString(), currentIndex.data(1).toString(), currentIndex.data(2).toString());
         editWidget->show();
     }
 
