@@ -11,10 +11,12 @@ struct Password
     QString service;
     QString login;
     QString password;
-    Password(const QString service, const QString login, const QString password):
+    QString frequency;
+    Password(const QString service, const QString login, const QString password, const QString frequency):
         service(service),
         login(login),
-        password(password)
+        password(password),
+        frequency(frequency)
     {
 
     }
@@ -34,11 +36,11 @@ class PasswordsModel : public QAbstractTableModel {
     Q_OBJECT
 public:
     enum ManagerEnum {
-         SERVICE=0, LOGIN, PASSWORD
+         SERVICE=0, LOGIN, PASSWORD, FREQUENCY
      };
     PasswordsModel(QObject *parent = 0);
     PasswordsModel(const QVector<Password> &contacts, QObject *parent = 0);
-
+    inline static int iterator = 0;
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;

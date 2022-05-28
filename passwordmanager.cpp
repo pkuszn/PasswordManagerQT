@@ -47,7 +47,6 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
     Q_UNUSED(deselected)
     if(selected.indexes().isEmpty()){
-        // do nothing
         return;
     }
     QModelIndexList list = selected.indexes();
@@ -98,8 +97,24 @@ void PasswordManager::on_pushButton_clicked()
 
 void PasswordManager::on_textEdited(QString service, QString login, QString password)
 {
-    const auto& passwordEntity = new Password(service, login, password);
+    if(service.length () == 0 || login.length() == 0 || password.length() == 0){
+        return;
+    }
+    const auto& passwordEntity = new Password(service, login, password, "0");
     model.addEntity(*passwordEntity);
+}
+
+void PasswordManager::on_receivedEditedInstance(QString service, QString login, QString password)
+{
+    if(service.length () == 0 || login.length() == 0 || password.length() == 0){
+        return;
+    }
+    if(ui->tableView){
+    //TODO: implement edit function
+        QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+        model.setData(currentIndex.column, service);
+
+    }
 }
 
 
@@ -130,13 +145,16 @@ void PasswordManager::on_actionAbout_author_triggered()
 
 void PasswordManager::on_pushButton_2_clicked()
 {
+    EditWidget *editWidget = new EditWidget();
     if(ui->tableView){
         QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
-        EditWidget *editWidget = new EditWidget();
         connect(this, &PasswordManager::sendInstanceToEdit, editWidget, &EditWidget::on_receivedText);
         emit sendInstanceToEdit(currentIndex.data(0).toString(), currentIndex.data(1).toString(), currentIndex.data(2).toString());
+        editWidget->setAttribute(Qt::WA_DeleteOnClose);
         editWidget->show();
     }
-
+    bool succeeded = connect(editWidget, &EditWidget::sendEditedInstance, this, &PasswordManager::on_receivedEditedInstance);
+    qDebug() << succeeded;
 }
+
 

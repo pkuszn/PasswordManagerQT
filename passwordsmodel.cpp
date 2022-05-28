@@ -8,10 +8,10 @@ PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
 {
     passwordList
-            << *new Password("mBank", "patryk98", ":12345")
-            << *new Password("Facebook", "mokoloko", "435425")
-            << *new Password("PayPal", "mitoman111", "flags123")
-            << *new Password("pobieraczek.com", "Washington, D.CxD", "asdsadasd");
+            << *new Password("mBank", "patryk98", ":12345", "0")
+            << *new Password("Facebook", "mokoloko", "435425", "0")
+            << *new Password("PayPal", "mitoman111", "flags123", "0")
+            << *new Password("pobieraczek.com", "Washington, D.CxD", "asdsadasd", "0");
 }
 
 PasswordsModel::PasswordsModel(const QVector<Password> &passwords, QObject *parent)
@@ -47,6 +47,8 @@ QVariant PasswordsModel::data(const QModelIndex& index, int role) const
         return password.login;
     case ManagerEnum::PASSWORD:
         return password.password;
+    case ManagerEnum::FREQUENCY:
+        return password.frequency;
     default:
         break;
     }
@@ -84,12 +86,17 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
             {
             case 0:
                 passwordList[row].service = value.toString();
+                passwordList[row].login = value.toString();
+                passwordList[row].password = value.toString();
                 break;
             case 1:
                 passwordList[row].login = value.toString();
                 break;
             case 2:
                 passwordList[row].password = value.toString();
+                break;
+            case 3:
+                passwordList[row].frequency = value.toString();
                 break;
             default:
                 return false;
@@ -145,7 +152,7 @@ bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
-        passwordList.insert(position, { QString(), QString(), QString() });
+        passwordList.insert(position, { QString(), QString(), QString(), QString() });
     endInsertRows();
     return true;
 }

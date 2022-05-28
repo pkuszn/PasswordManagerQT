@@ -22,7 +22,6 @@ NewInstanceDialog::~NewInstanceDialog()
 void NewInstanceDialog::on_pushButton_clicked()
 {
     emit sendInstance(ui->lineEdit->text(), ui->lineEdit_2->text(), ui->lineEdit_3->text());
-
 }
 
 

@@ -28,6 +28,7 @@ private slots:
     void setLabel(QLabel& label, int size, bool bold = false, QColor color = false);
     void on_pushButton_clicked();
     void on_textEdited(QString service, QString login, QString password);
+    void on_receivedEditedInstance(QString service, QString login, QString password);
 
     void on_pushButton_3_clicked();
 
