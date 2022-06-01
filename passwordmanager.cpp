@@ -212,8 +212,7 @@ void PasswordManager::setFilename(const QString &newFilename)
 QList<Password> PasswordManager::appendNewInstanceToList(QList<QString> list)
 {
     QList<Password> passwordList;
-    Password *password = new Password(list.at(0), list.at(1), list.at(2), list.at(3));
-    passwordList.append(*password);
+    passwordList.append(*new Password(list.at(0), list.at(1), list.at(2), list.at(3)));
     return passwordList;
 }
 

@@ -8,7 +8,6 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include <QTableView>
-#include <PasswordReadWrite.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PasswordManager; }
@@ -47,7 +46,6 @@ private:
     PasswordsModel model;
     NewInstanceDialog *dialog;
     EditWidget *editWidget = nullptr;
-    PasswordReadWrite *fileManager;
     void SaveToFile(QList<Password> passwordList);
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
