@@ -10,6 +10,8 @@
 #include <editwidget.h>
 #include <QtAlgorithms>
 #include <editwidget.h>
+#include <QFileDialog>
+#include <qmessagebox.h>
 
 
 
@@ -18,14 +20,11 @@ PasswordManager::PasswordManager(QWidget *parent) :
     ui(new Ui::PasswordManager),
     model()
 {
-
     ui->setupUi(this);
     configure();
     QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &PasswordManager::onSelectionChanged);
-
-
 }
 
 PasswordManager::~PasswordManager()
@@ -54,13 +53,7 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
     QString login = index.data(1).toString();
     ui->label_4->setText(login);
-    QString password;
-    if(ui->radioButton->isChecked()){
-        password = model.maskPassword();
-    }
-    else{
-        password = index.data(2).toString();
-    }
+    QString password = ui->radioButton->isChecked() ? model.maskPassword() : index.data(2).toString();
     ui->label_5->setText(password);
 }
 
@@ -110,13 +103,9 @@ void PasswordManager::on_receivedEditedInstance(QString service, QString login, 
         return;
     }
     if(ui->tableView){
-    //TODO: implement edit function
-        QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
-        model.setData(currentIndex.column, service);
-
+    //TODO: implement edit function        
     }
 }
-
 
 void PasswordManager::on_pushButton_3_clicked()
 {
@@ -126,7 +115,6 @@ void PasswordManager::on_pushButton_3_clicked()
     }
 }
 
-
 void PasswordManager::on_actionClear_all_triggered()
 {
     if(ui->tableView){
@@ -134,14 +122,12 @@ void PasswordManager::on_actionClear_all_triggered()
     }
 }
 
-
 void PasswordManager::on_actionAbout_author_triggered()
 {
     InfoDialog *dlg = new InfoDialog();
     dlg->setAttribute(Qt::WA_DeleteOnClose);
     dlg->show();
 }
-
 
 void PasswordManager::on_pushButton_2_clicked()
 {
@@ -157,4 +143,91 @@ void PasswordManager::on_pushButton_2_clicked()
     qDebug() << succeeded;
 }
 
+
+void PasswordManager::SaveToFile(QList<Password> passwordList)
+{
+
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save Password Instance"), "",
+                                                    tr("Password Instance (*.txt);;All Files (*)"));
+
+    if (fileName.isEmpty())
+        return;
+    else {
+        QFile file(fileName);
+        if (!file.open(QIODevice::Append | QFile::Text) ) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                                     file.errorString());
+            return;
+        }
+        QTextStream out(&file);
+        foreach(Password password, passwordList){
+            out << password.service + "," + password.login + "," + password.password + "," + password.frequency + "\n";
+        }
+    }
+}
+
+QList<Password> PasswordManager::ReadFromFile(){
+    QString filename = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Password File"), "",
+                                                    tr("Password Instance (*.txt);;All Files (*)"));
+
+    QList<Password> passwordList;
+    if(filename.isEmpty()){
+        return passwordList;
+    }
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly | QFile::Text)){
+        QMessageBox::information(this, tr("Unable to open file"),
+                                 file.errorString());
+        return passwordList;
+    }
+
+    QTextStream in(&file);
+
+    while(!file.atEnd()){
+        QString line = in.readLine();
+        QList<QString> itemList;
+        for(QString item : line.split(",")){
+            itemList.append(item);
+            //TODO: Fix GDB debugger error. Function only goes through first line
+            //gdb crashes when calling functions on Windows
+        }
+        passwordList = appendNewInstanceToList(itemList);
+    }
+    return passwordList;
+}
+
+
+const QString &PasswordManager::getFilename() const
+{
+    return filename;
+}
+
+void PasswordManager::setFilename(const QString &newFilename)
+{
+    filename = newFilename;
+}
+
+QList<Password> PasswordManager::appendNewInstanceToList(QList<QString> list)
+{
+    QList<Password> passwordList;
+    Password *password = new Password(list.at(0), list.at(1), list.at(2), list.at(3));
+    passwordList.append(*password);
+    return passwordList;
+}
+
+void PasswordManager::on_actionSave_triggered()
+{
+    SaveToFile(model.getPasswords());
+}
+
+
+void PasswordManager::on_actionOpenm_triggered()
+{
+    QList<Password> passwordList = ReadFromFile();
+    foreach(Password password, passwordList){
+        model.addEntity(password);
+    }
+}
 

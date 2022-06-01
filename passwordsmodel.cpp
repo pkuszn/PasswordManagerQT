@@ -3,6 +3,10 @@
 #include <QItemSelection>
 #include <QString>
 #include <cstdlib>
+#include <qfile.h>
+#include <qmessagebox.h>
+#include <QFileDialog>
+#include <qmessagebox.h>
 
 PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
@@ -86,8 +90,6 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
             {
             case 0:
                 passwordList[row].service = value.toString();
-                passwordList[row].login = value.toString();
-                passwordList[row].password = value.toString();
                 break;
             case 1:
                 passwordList[row].login = value.toString();
@@ -100,6 +102,7 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
                 break;
             default:
                 return false;
+
             }
             emit dataChanged(index, index);
             return true;
@@ -116,7 +119,7 @@ bool PasswordsModel::EditEntity(int index){
 
 void PasswordsModel::addEntity(Password password)
 {
-    beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size() + 1);
+    beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size());
     passwordList.append(password);
     endInsertRows();
 }
@@ -172,4 +175,8 @@ QString PasswordsModel::maskPassword(){
     QString password = "*************";
     return password;
 }
+
+
+
+
 

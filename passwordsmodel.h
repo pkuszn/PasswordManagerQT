@@ -6,6 +6,7 @@
 #include <QAbstractTableModel>
 #include <passwordinterface.h>
 #include <qplugin.h>
+
 struct Password
 {
     QString service;
@@ -55,6 +56,7 @@ public:
     void removePassword(int index);
     bool EditEntity(int index);
     QString maskPassword();
+
 private:
     QVector<Password> passwordList;
 private slots:

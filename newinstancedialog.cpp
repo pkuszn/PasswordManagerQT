@@ -1,6 +1,6 @@
 #include "newinstancedialog.h"
 #include "ui_newinstancedialog.h"
-#include <PasswordDomain.h>
+#include <passworddomain.h>
 #include <QDialog>
 
 NewInstanceDialog::NewInstanceDialog(QWidget *parent) :
