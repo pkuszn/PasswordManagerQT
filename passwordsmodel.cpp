@@ -7,6 +7,7 @@
 #include <qmessagebox.h>
 #include <QFileDialog>
 #include <qmessagebox.h>
+#include <stdlib.h>
 
 PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
@@ -97,6 +98,7 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
         default:
             return false;
         }
+        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
         emit dataChanged(index, index);
         return true;
     }
@@ -126,6 +128,7 @@ bool PasswordsModel::setDataCustom(const QModelIndex &index, const QVariant &val
         default:
             return false;
         }
+        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
         emit dataChanged(index, index);
         return true;
     }
@@ -136,6 +139,7 @@ void PasswordsModel::addEntity(Password password)
 {
     beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size());
     passwordList.append(password);
+    std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
     endInsertRows();
 }
 
@@ -170,6 +174,7 @@ bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index
     for (int row = 0; row < rows; ++row)
         passwordList.insert(position, { QString(), QString(), QString(), QString() });
     endInsertRows();
+    std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
     return true;
 }
 
@@ -183,7 +188,6 @@ const QVector<Password> &PasswordsModel::getPasswords() const
     return passwordList;
 }
 
-//TODO: mask password return masked password with the same length like original
 QString PasswordsModel::maskPassword(int length){
     QString characters;
     for(int i = 0; i<length; i++){
@@ -191,8 +195,4 @@ QString PasswordsModel::maskPassword(int length){
     }
     return characters;
 }
-
-
-
-
 

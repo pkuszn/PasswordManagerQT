@@ -250,10 +250,14 @@ void PasswordManager::ReadOnStartup(QString filePath)
         QStringList elements = str.split(",");
         passwordList.append(*new Password(elements.at(0), elements.at(1), elements.at(2), elements.at(3)));
     }
-
     foreach(Password password, passwordList){
         model.addEntity(password);
     }
+}
+
+void PasswordManager::AddFileToArchive(const QString fileName, const QString password)
+{
+    return;
 }
 
 
@@ -266,6 +270,7 @@ void PasswordManager::setFilename(const QString &newFilename)
 {
     filename = newFilename;
 }
+
 
 void PasswordManager::on_actionSave_triggered()
 {

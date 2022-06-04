@@ -33,6 +33,11 @@ inline QDataStream &operator>>(QDataStream &stream, Password &password)
     return stream >> password.service >> password.login >> password.password;
 }
 
+inline bool frequencyGreaterThan(Password &pass1, Password &pass2)
+{
+    return pass1.frequency > pass2.frequency;
+}
+
 class PasswordsModel : public QAbstractTableModel {
     Q_OBJECT
 public:

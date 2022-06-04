@@ -20,6 +20,7 @@ public:
     PasswordManager(QWidget *parent = 0);
     ~PasswordManager();
     void ReadOnStartup(QString filePath);
+    void AddFileToArchive(const QString fileName, const QString password);
 
 private slots:
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
@@ -51,5 +52,6 @@ private:
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
     void setFilename(const QString &newFilename);
+
 };
 #endif // PASSWORDMANAGER_H
