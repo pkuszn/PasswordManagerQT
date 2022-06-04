@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <qmessagebox.h>
 #include <QSortFilterProxyModel>
+#include <editwidget.h>
 
 
 
@@ -34,9 +35,7 @@ PasswordManager::~PasswordManager()
 void PasswordManager::configure(){
     setWindowTitle("PasswordManager");
     setLabel(*ui->label, 25, true, Qt::blue);
-    QSortFilterProxyModel proxyModel;
-    proxyModel.setSourceModel(&model);
-    ui->tableView->setModel(&proxyModel);
+    ui->tableView->setModel(&model);
     setColumnWidth(ui->tableView->width()-5);
     setLabel(*ui->label_6, 20, true, nullptr);
     setLabel(*ui->label_7, 20, true, nullptr);
