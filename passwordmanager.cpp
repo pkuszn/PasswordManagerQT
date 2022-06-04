@@ -7,11 +7,11 @@
 #include <QItemSelection>
 #include "infodialog.h"
 #include "passwordsmodel.h"
-#include <editwidget.h>
 #include <QtAlgorithms>
-#include <editwidget.h>
 #include <QFileDialog>
 #include <qmessagebox.h>
+#include <EditWidget.h>
+#include <EditWidget.h>
 
 
 
