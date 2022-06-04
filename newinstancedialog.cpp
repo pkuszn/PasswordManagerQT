@@ -21,14 +21,15 @@ NewInstanceDialog::~NewInstanceDialog()
 
 void NewInstanceDialog::on_pushButton_clicked()
 {
-    emit sendInstance(ui->lineEdit->text(), ui->lineEdit_2->text(), ui->lineEdit_3->text());
+    emit sendInstance(ui->lineEdit->text(), ui->lineEdit_2->text(), ui->textEdit->toPlainText());
+    NewInstanceDialog::close();
 }
 
 
 void NewInstanceDialog::on_pushButton_3_clicked()
 {
-    ui->lineEdit_3->clear();
+    ui->textEdit->clear();
     PasswordDomain *domain = new PasswordDomain();
-    ui->lineEdit_3->setText(domain->getPassword());
+    ui->textEdit->setText(domain->getPassword());
 }
 
