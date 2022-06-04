@@ -19,7 +19,7 @@ class PasswordManager : public QMainWindow
 public:
     PasswordManager(QWidget *parent = 0);
     ~PasswordManager();
-
+    void ReadOnStartup(QString filePath);
 
 private slots:
     void onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
@@ -38,6 +38,8 @@ private slots:
 
     void on_pushButton_5_clicked();
 
+    void on_pushButton_4_clicked();
+
 signals:
     void sendInstanceToEdit(QString service, QString login, QString password);
 
@@ -47,6 +49,7 @@ private:
     PasswordsModel model;
     NewInstanceDialog *dialog;
     void SaveToFile(QList<Password> passwordList);
+    void SaveToFile(QString filePath, QList<Password> passwordList);
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
     void setFilename(const QString &newFilename);

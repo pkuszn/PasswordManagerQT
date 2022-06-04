@@ -11,18 +11,12 @@
 PasswordsModel::PasswordsModel(QObject *parent)
     :QAbstractTableModel(parent)
 {
-    passwordList
-            << *new Password("mBank", "patryk98", ":12345", "0")
-            << *new Password("Facebook", "mokoloko", "435425", "0")
-            << *new Password("PayPal", "mitoman111", "flags123", "0")
-            << *new Password("pobieraczek.com", "Washington, D.CxD", "asdsadasd", "0");
 }
 
 PasswordsModel::PasswordsModel(const QVector<Password> &passwords, QObject *parent)
     : QAbstractTableModel(parent),
       passwordList(passwords)
 {
-
 }
 
 int PasswordsModel::rowCount(const QModelIndex &parent) const

@@ -109,7 +109,6 @@ void PasswordManager::on_receivedEditedInstance(QString service, QString login, 
         model.setDataCustom(currentIndex, service, 0);
         model.setDataCustom(currentIndex, login, 1);
         model.setDataCustom(currentIndex, password, 2);
-        currentIndex.f
     }
 }
 
@@ -173,6 +172,24 @@ void PasswordManager::SaveToFile(QList<Password> passwordList)
     }
 }
 
+void PasswordManager::SaveToFile(QString filePath, QList<Password> passwordList)
+{
+    if (filePath.isEmpty())
+        return;
+    else {
+        QFile file(filePath);
+        if (!file.open(QIODevice::WriteOnly | QFile::Text) ) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                                     file.errorString());
+            return;
+        }
+        QTextStream out(&file);
+        foreach(Password password, passwordList){
+            out << password.service + "," + password.login + "," + password.password + "," + password.frequency + "\n";
+        }
+    }
+}
+
 QList<Password> PasswordManager::ReadFromFile(){
     QString filename = QFileDialog::getOpenFileName(this,
                                                     tr("Open Password File"), "",
@@ -204,6 +221,39 @@ QList<Password> PasswordManager::ReadFromFile(){
         passwordList.append(*new Password(elements.at(0), elements.at(1), elements.at(2), elements.at(3)));
     }
     return passwordList;
+}
+
+void PasswordManager::ReadOnStartup(QString filePath)
+{
+    QList<Password> passwordList;
+    if(filePath.isEmpty()){
+        return;
+    }
+    QFile file(filePath);
+    if(!file.open(QIODevice::ReadOnly | QFile::Text)){
+        QMessageBox::information(this, tr("Unable to open file"),
+                                 file.errorString());
+        return;
+    }
+
+    QTextStream in(&file);
+    QStringList itemList;
+    while(true){
+        QString line = in.readLine();
+        if(line.isNull()){
+            break;
+        }
+        itemList.append(line);
+    }
+    for(int i = 0; i<itemList.count(); i++){
+        QString str = itemList.at(i);
+        QStringList elements = str.split(",");
+        passwordList.append(*new Password(elements.at(0), elements.at(1), elements.at(2), elements.at(3)));
+    }
+
+    foreach(Password password, passwordList){
+        model.addEntity(password);
+    }
 }
 
 
@@ -238,5 +288,12 @@ void PasswordManager::on_pushButton_5_clicked()
     int frequency = currentIndex.data(3).toInt() + 1;
     model.setDataCustom(currentIndex, frequency, 3);
     clipboard->setText(currentIndex.data(2).toString());
+}
+
+
+void PasswordManager::on_pushButton_4_clicked()
+{
+    QString filePath = QApplication::applicationDirPath() + "//main.txt";
+    SaveToFile(filePath, model.getPasswords());
 }
 
