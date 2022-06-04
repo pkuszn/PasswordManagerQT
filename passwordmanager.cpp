@@ -7,11 +7,13 @@
 #include <QItemSelection>
 #include "infodialog.h"
 #include "passwordsmodel.h"
+#include "passwordsmodel.h"
 #include <QtAlgorithms>
 #include <QFileDialog>
 #include <qmessagebox.h>
 #include <QSortFilterProxyModel>
 #include <editwidget.h>
+#include <QClipboard>
 
 
 
@@ -103,7 +105,11 @@ void PasswordManager::on_receivedEditedInstance(QString service, QString login, 
         return;
     }
     if(ui->tableView){
-        //TODO: implement edit function
+        QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+        model.setDataCustom(currentIndex, service, 0);
+        model.setDataCustom(currentIndex, login, 1);
+        model.setDataCustom(currentIndex, password, 2);
+        currentIndex.f
     }
 }
 
@@ -222,5 +228,15 @@ void PasswordManager::on_actionOpenm_triggered()
     foreach(Password password, passwordList){
         model.addEntity(password);
     }
+}
+
+void PasswordManager::on_pushButton_5_clicked()
+{
+    QClipboard *clipboard = QGuiApplication::clipboard();
+    QString originalText = clipboard->text();
+    QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+    int frequency = currentIndex.data(3).toInt() + 1;
+    model.setDataCustom(currentIndex, frequency, 3);
+    clipboard->setText(currentIndex.data(2).toString());
 }
 

@@ -36,6 +36,8 @@ private slots:
     void on_actionSave_triggered();
     void on_actionOpenm_triggered();
 
+    void on_pushButton_5_clicked();
+
 signals:
     void sendInstanceToEdit(QString service, QString login, QString password);
 

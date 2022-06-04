@@ -83,33 +83,61 @@ Qt::ItemFlags PasswordsModel::flags(const QModelIndex &index) const
 bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole && !(index.row() >= passwordList.size() || index.row() < 0))
+    {
+        int row = index.row();
+
+        switch(index.column())
         {
-            int row = index.row();
+        case 0:
+            passwordList[row].service = value.toString();
+            break;
+        case 1:
+            passwordList[row].login = value.toString();
+            break;
+        case 2:
+            passwordList[row].password = value.toString();
+            break;
+        case 3:
+            passwordList[row].frequency = value.toString();
+            break;
+        default:
+            return false;
 
-            switch(index.column())
-            {
-            case 0:
-                passwordList[row].service = value.toString();
-                break;
-            case 1:
-                passwordList[row].login = value.toString();
-                break;
-            case 2:
-                passwordList[row].password = value.toString();
-                break;
-            case 3:
-                passwordList[row].frequency = value.toString();
-                break;
-            default:
-                return false;
-
-            }
-            emit dataChanged(index, index);
-            return true;
         }
-        return false;
+        emit dataChanged(index, index);
+        return true;
+    }
+    return false;
 }
 
+bool PasswordsModel::setDataCustom(const QModelIndex &index, const QVariant &value, int column)
+{
+    if (index.isValid() && !(index.row() >= passwordList.size() || index.row() < 0))
+    {
+        int row = index.row();
+
+        switch(column)
+        {
+        case 0:
+            passwordList[row].service = value.toString();
+            break;
+        case 1:
+            passwordList[row].login = value.toString();
+            break;
+        case 2:
+            passwordList[row].password = value.toString();
+            break;
+        case 3:
+            passwordList[row].frequency = value.toString();
+            break;
+        default:
+            return false;
+        }
+        emit dataChanged(index, index);
+        return true;
+    }
+    return false;
+}
 
 
 bool PasswordsModel::EditEntity(int index){
