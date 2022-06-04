@@ -22,6 +22,9 @@ public slots:
     void on_receivedText(QString service, QString login, QString password);
     void on_pushButton_clicked();
 
+private slots:
+    void on_pushButton_2_clicked();
+
 private:
     Ui::EditWidget *ui;
 };

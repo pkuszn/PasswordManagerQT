@@ -3,9 +3,10 @@
 #include <qdebug.h>
 #include <qstring.h>
 
-PasswordDomain::PasswordDomain()
+PasswordDomain::PasswordDomain(int length)
 {
-    setPassword(generatePassword());
+    this->length = length;
+    setPassword(generatePassword(this->length));
 }
 
 PasswordDomain::~PasswordDomain()
@@ -23,14 +24,13 @@ void PasswordDomain::setPassword(const QString &newPassword)
 }
 
 //TODO: Improve generating passwords
-QString PasswordDomain::generatePassword()
+QString PasswordDomain::generatePassword(int length)
 {
     const char numbers[] = "0123456789";
     const char symbols[] = "!@#$%^&*";
     const char letter[] = "abcdefghijklmnopqrstuvwxyz";
     const char LETTER[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     srand((unsigned int)(time(NULL)));
-    int length = rand() % 30 * 8;
     char password[length];
     int i = 0;
     int randomizer = 0;

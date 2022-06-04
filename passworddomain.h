@@ -9,14 +9,16 @@ class PasswordDomain
 {
 public:
     PasswordDomain();
+    PasswordDomain(int length);
     ~PasswordDomain();
     QString password;
+    int length;
 
     const QString &getPassword() const;
     void setPassword(const QString &newPassword);
 
 private:
-    QString generatePassword();
+    QString generatePassword(int length);
 
 };
 

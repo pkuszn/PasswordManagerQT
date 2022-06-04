@@ -28,3 +28,9 @@ void EditWidget::on_pushButton_clicked()
     EditWidget::close();
 }
 
+
+void EditWidget::on_pushButton_2_clicked()
+{
+    EditWidget::close();
+}
+

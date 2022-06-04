@@ -36,7 +36,7 @@ void PasswordManager::configure(){
     setWindowTitle("PasswordManager");
     setLabel(*ui->label, 25, true, Qt::blue);
     ui->tableView->setModel(&model);
-    setColumnWidth(ui->tableView->width()-5);
+    setColumnWidth(ui->tableView->width()-10);
     setLabel(*ui->label_6, 20, true, nullptr);
     setLabel(*ui->label_7, 20, true, nullptr);
 }

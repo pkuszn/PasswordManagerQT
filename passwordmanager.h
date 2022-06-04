@@ -48,6 +48,5 @@ private:
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
     void setFilename(const QString &newFilename);
-    static QList<Password> appendNewInstanceToList(QList<QString> list);
 };
 #endif // PASSWORDMANAGER_H

@@ -28,7 +28,7 @@ void NewInstanceDialog::on_pushButton_clicked()
 void NewInstanceDialog::on_pushButton_3_clicked()
 {
     ui->textEdit->clear();
-    PasswordDomain *domain = new PasswordDomain();
+    PasswordDomain *domain = new PasswordDomain(ui->horizontalSlider->value());
     ui->textEdit->setText(domain->getPassword());
 }
 
