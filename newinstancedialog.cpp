@@ -9,8 +9,7 @@ NewInstanceDialog::NewInstanceDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->pushButton_2, SIGNAL(clicked()), this, SLOT(close()));
-
-
+    ui->textEdit->setToolTip("You can simply generate a new password using 'Generate' Button. Set the password length using horizontal slider.");
 }
 
 NewInstanceDialog::~NewInstanceDialog()
