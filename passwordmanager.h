@@ -3,7 +3,6 @@
 
 #include "passwordsmodel.h"
 
-#include <editwidget.h>
 #include <newinstancedialog.h>
 #include <QItemSelection>
 #include <QMainWindow>
@@ -45,7 +44,6 @@ private:
     Ui::PasswordManager *ui;
     PasswordsModel model;
     NewInstanceDialog *dialog;
-    EditWidget *editWidget = nullptr;
     void SaveToFile(QList<Password> passwordList);
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
