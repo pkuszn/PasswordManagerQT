@@ -103,7 +103,7 @@ void PasswordManager::on_receivedEditedInstance(QString service, QString login, 
         return;
     }
     if(ui->tableView){
-    //TODO: implement edit function        
+        //TODO: implement edit function
     }
 }
 
@@ -184,16 +184,18 @@ QList<Password> PasswordManager::ReadFromFile(){
     }
 
     QTextStream in(&file);
-
-    while(!file.atEnd()){
+    QStringList itemList;
+    while(true){
         QString line = in.readLine();
-        QList<QString> itemList;
-        for(QString item : line.split(",")){
-            itemList.append(item);
-            //TODO: Fix GDB debugger error. Function only goes through first line
-            //gdb crashes when calling functions on Windows
+        if(line.isNull()){
+            break;
         }
-        passwordList = appendNewInstanceToList(itemList);
+        itemList.append(line);
+    }
+    for(int i = 0; i<itemList.count(); i++){
+        QString str = itemList.at(i);
+        QStringList elements = str.split(",");
+        passwordList.append(*new Password(elements.at(0), elements.at(1), elements.at(2), elements.at(3)));
     }
     return passwordList;
 }
@@ -209,18 +211,10 @@ void PasswordManager::setFilename(const QString &newFilename)
     filename = newFilename;
 }
 
-QList<Password> PasswordManager::appendNewInstanceToList(QList<QString> list)
-{
-    QList<Password> passwordList;
-    passwordList.append(*new Password(list.at(0), list.at(1), list.at(2), list.at(3)));
-    return passwordList;
-}
-
 void PasswordManager::on_actionSave_triggered()
 {
     SaveToFile(model.getPasswords());
 }
-
 
 void PasswordManager::on_actionOpenm_triggered()
 {
