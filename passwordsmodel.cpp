@@ -96,7 +96,6 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
             break;
         default:
             return false;
-
         }
         emit dataChanged(index, index);
         return true;
@@ -133,12 +132,6 @@ bool PasswordsModel::setDataCustom(const QModelIndex &index, const QVariant &val
     return false;
 }
 
-
-bool PasswordsModel::EditEntity(int index){
-
-
-}
-
 void PasswordsModel::addEntity(Password password)
 {
     beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size());
@@ -169,8 +162,6 @@ void PasswordsModel::removePassword(int index)
     endRemoveRows();
 }
 
-
-
 bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index)
 {
     Q_UNUSED(index);
@@ -193,9 +184,12 @@ const QVector<Password> &PasswordsModel::getPasswords() const
 }
 
 //TODO: mask password return masked password with the same length like original
-QString PasswordsModel::maskPassword(){
-    QString password = "*************";
-    return password;
+QString PasswordsModel::maskPassword(int length){
+    QString characters;
+    for(int i = 0; i<length; i++){
+        characters.append("*");
+    }
+    return characters;
 }
 
 

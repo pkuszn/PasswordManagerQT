@@ -55,7 +55,7 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
     QString login = index.data(1).toString();
     ui->label_4->setText(login);
-    QString password = ui->radioButton->isChecked() ? model.maskPassword() : index.data(2).toString();
+    QString password = ui->radioButton->isChecked() ? model.maskPassword(index.data(2).toString().length()) : index.data(2).toString();
     ui->label_5->setText(password);
 }
 
@@ -293,7 +293,8 @@ void PasswordManager::on_pushButton_5_clicked()
 
 void PasswordManager::on_pushButton_4_clicked()
 {
-    QString filePath = QApplication::applicationDirPath() + "//main.txt";
+    QString filePath = QApplication::applicationDirPath() + "/main.txt";
     SaveToFile(filePath, model.getPasswords());
+    QApplication::quit();
 }
 

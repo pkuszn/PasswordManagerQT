@@ -56,7 +56,7 @@ public:
     bool removeAllData();
     void removePassword(int index);
     bool EditEntity(int index);
-    QString maskPassword();
+    QString maskPassword(int length);
 
 private:
     QVector<Password> passwordList;
