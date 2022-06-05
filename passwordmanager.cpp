@@ -167,7 +167,7 @@ void PasswordManager::SaveToFile(QList<Password> passwordList)
         }
         QTextStream out(&file);
         foreach(Password password, passwordList){
-            out << password.service + "," + password.login + "," + password.password + "," + password.frequency + "\n";
+            out << password.service + "," + password.login + "," + password.password + "," + password.numberOfClicks + "\n";
         }
     }
 }
@@ -185,7 +185,7 @@ void PasswordManager::SaveToFile(QString filePath, QList<Password> passwordList)
         }
         QTextStream out(&file);
         foreach(Password password, passwordList){
-            out << password.service + "," + password.login + "," + password.password + "," + password.frequency + "\n";
+            out << password.service + "," + password.login + "," + password.password + "," + password.numberOfClicks + "\n";
         }
     }
 }
@@ -290,7 +290,7 @@ void PasswordManager::on_pushButton_5_clicked()
     QClipboard *clipboard = QGuiApplication::clipboard();
     QString originalText = clipboard->text();
     QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
-    int frequency = currentIndex.data(3).toInt() + 1;
+    int numberOfClicks = currentIndex.data(3).toInt() + 1;
     model.setDataCustom(currentIndex, frequency, 3);
     clipboard->setText(currentIndex.data(2).toString());
 }

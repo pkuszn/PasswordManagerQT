@@ -12,12 +12,12 @@ struct Password
     QString service;
     QString login;
     QString password;
-    QString frequency;
-    Password(const QString service, const QString login, const QString password, const QString frequency):
+    QString numberOfClicks;
+    Password(const QString service, const QString login, const QString password, const QString numberOfClicks):
         service(service),
         login(login),
         password(password),
-        frequency(frequency)
+        numberOfClicks(numberOfClicks)
     {
 
     }
@@ -35,17 +35,17 @@ inline QDataStream &operator>>(QDataStream &stream, Password &password)
 
 inline bool frequencyGreaterThan(Password &pass1, Password &pass2)
 {
-    return pass1.frequency > pass2.frequency;
+    return pass1.numberOfClicks > pass2.numberOfClicks;
 }
 
 class PasswordsModel : public QAbstractTableModel {
     Q_OBJECT
 public:
     enum ManagerEnum {
-         SERVICE=0, LOGIN, PASSWORD, FREQUENCY
+         SERVICE=0, LOGIN, PASSWORD, CLICKS
      };
     PasswordsModel(QObject *parent = 0);
-    PasswordsModel(const QVector<Password> &contacts, QObject *parent = 0);
+    PasswordsModel(const QVector<Password> &passwords, QObject *parent = 0);
     inline static int iterator = 0;
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;

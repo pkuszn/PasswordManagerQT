@@ -46,8 +46,8 @@ QVariant PasswordsModel::data(const QModelIndex& index, int role) const
         return password.login;
     case ManagerEnum::PASSWORD:
         return password.password;
-    case ManagerEnum::FREQUENCY:
-        return password.frequency;
+    case ManagerEnum::CLICKS:
+        return password.numberOfClicks;
     default:
         break;
     }
@@ -93,7 +93,7 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
             passwordList[row].password = value.toString();
             break;
         case 3:
-            passwordList[row].frequency = value.toString();
+            passwordList[row].numberOfClicks = value.toString();
             break;
         default:
             return false;
@@ -123,7 +123,7 @@ bool PasswordsModel::setDataCustom(const QModelIndex &index, const QVariant &val
             passwordList[row].password = value.toString();
             break;
         case 3:
-            passwordList[row].frequency = value.toString();
+            passwordList[row].numberOfClicks = value.toString();
             break;
         default:
             return false;
