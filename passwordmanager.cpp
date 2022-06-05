@@ -15,6 +15,7 @@
 #include <editwidget.h>
 #include <QClipboard>
 #include <qapplication.h>
+#include <QStandardItemModel>
 
 
 
@@ -28,6 +29,14 @@ PasswordManager::PasswordManager(QWidget *parent) :
     QItemSelectionModel* selectionModel = ui->tableView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &PasswordManager::onSelectionChanged);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setDragEnabled(true);
+    ui->tableView->setAcceptDrops(true);
+    ui->tableView->setDragDropMode(QAbstractItemView::DragDrop);
+    ui->tableView->setDefaultDropAction(Qt::MoveAction);
+    ui->tableView->setDragDropOverwriteMode(false);
+    ui->tableView->setDropIndicatorShown(true);
 }
 
 PasswordManager::~PasswordManager()
@@ -37,11 +46,34 @@ PasswordManager::~PasswordManager()
 
 void PasswordManager::configure(){
     setWindowTitle("PasswordManager");
-    setLabel(*ui->label, 25, true, Qt::black);
+    setLabel(*ui->label, 20, true, Qt::black);
     ui->tableView->setModel(&model);
     setColumnWidth(ui->tableView->width()-10);
-    setLabel(*ui->label_6, 20, true, nullptr);
-    setLabel(*ui->label_7, 20, true, nullptr);
+    setLabel(*ui->label_6, 15, true, nullptr);
+    setLabel(*ui->label_7, 15, true, nullptr);
+    addIconToButton(ui->pushButton_6, ":/icons/icons/down-arrow.png");
+    addIconToButton(ui->pushButton_7, ":/icons/icons/up-arrow.png");
+    setButtonSize(ui->pushButton_6, 30, 25);
+    setButtonSize(ui->pushButton_7, 30, 25);
+
+}
+
+void PasswordManager::addIconToButton(QPushButton *button, QString filePath){
+    if(filePath.length() == 0){
+        return;
+    }
+    QPixmap pixmap(filePath);
+    QIcon ButtonIcon(pixmap);
+    button->setIcon(ButtonIcon);
+    button->setIconSize(pixmap.rect().size());
+}
+
+void PasswordManager::setButtonSize(QPushButton *button, int width, int height){
+    if(width == 0 || height == 0){
+        return;
+    }
+    const QSize btnSize = QSize(width, height);
+    button->setFixedSize(btnSize);
 }
 
 void PasswordManager::onSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
@@ -56,7 +88,7 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
     QString login = index.data(1).toString();
     ui->label_4->setText(login);
-    QString password = ui->radioButton->isChecked() ? model.maskPassword(index.data(2).toString().length()) : index.data(2).toString();
+    QString password = ui->checkBox_2->isChecked() ? model.maskPassword(index.data(2).toString().length()) : index.data(2).toString();
     ui->label_5->setText(password);
 }
 
@@ -305,5 +337,48 @@ void PasswordManager::on_pushButton_4_clicked()
 void PasswordManager::on_actionExit_triggered()
 {
     QApplication::quit();
+}
+
+
+void PasswordManager::on_pushButton_6_clicked()
+{
+    QObject::connect(ui->tableView->verticalHeader(),&QHeaderView::sectionMoved,[=](int logicalIndex, int oldVisualIndex, int newVisualIndex)->void{
+        Q_ASSERT(logicalIndex==oldVisualIndex);
+        const QModelIndex numberIndex =model.index(1,logicalIndex); /*I use 1 here because of model->setHeaderData(1, Qt::Horizontal, tr("Number")); it looks strange, however, you have nothing at index 0*/
+        Q_ASSERT(logicalIndex==numberIndex.data().toInt());
+        model.setData(numberIndex,newVisualIndex);
+    });
+}
+
+
+void PasswordManager::on_pushButton_7_clicked()
+{
+    int selectedRow = ui->tableView->currentIndex().row();
+    QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
+    ui->tableView->model()->moveRow(this->model.index(selectedRow, currentIndex.column()),
+                                    selectedRow,
+                                    this->model.index(selectedRow+1, currentIndex.column()),
+                                    selectedRow+1);
+}
+
+
+
+void PasswordManager::MoveRow(bool moveUp)
+{
+return;
+}
+
+
+void PasswordManager::on_checkBox_stateChanged(int arg1)
+{
+    model.sortEnabled = ui->checkBox->isChecked();
+    if(model.sortEnabled){
+        ui->pushButton_6->setDisabled(true);
+        ui->pushButton_7->setDisabled(true);
+    }
+    if(!model.sortEnabled){
+        ui->pushButton_6->setDisabled(false);
+        ui->pushButton_7->setDisabled(false);
+    }
 }
 

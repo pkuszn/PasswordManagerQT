@@ -6,6 +6,7 @@
 #include <QAbstractTableModel>
 #include <passwordinterface.h>
 #include <qplugin.h>
+#include <qstandarditemmodel.h>
 
 struct Password
 {
@@ -62,6 +63,9 @@ public:
     void removePassword(int index);
     bool EditEntity(int index);
     QString maskPassword(int length);
+    bool sortEnabled;
+    bool moveItem(const QModelIndex &fromParent, int fromRow,
+            const QModelIndex &toParent, int toRow,	 bool up);
 
 private:
     QVector<Password> passwordList;

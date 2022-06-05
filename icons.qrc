@@ -1,2 +1,6 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/down-arrow.png</file>
+        <file>icons/up-arrow.png</file>
+    </qresource>
+</RCC>

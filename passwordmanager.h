@@ -7,6 +7,8 @@
 #include <QItemSelection>
 #include <QMainWindow>
 #include <QTableView>
+#include <qpushbutton.h>
+#include <qstandarditemmodel.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class PasswordManager; }
@@ -38,8 +40,11 @@ private slots:
     void on_actionOpenm_triggered();
     void on_pushButton_5_clicked();
     void on_pushButton_4_clicked();
-
     void on_actionExit_triggered();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
+
+    void on_checkBox_stateChanged(int arg1);
 
 signals:
     void sendInstanceToEdit(QString service, QString login, QString password);
@@ -54,6 +59,9 @@ private:
     QList<Password> ReadFromFile();
     const QString &getFilename() const;
     void setFilename(const QString &newFilename);
+    void addIconToButton(QPushButton *button, QString filePath);
+    void setButtonSize(QPushButton *button, int width, int height);
+    void MoveRow(bool moveUp);
 
 };
 #endif // PASSWORDMANAGER_H

@@ -18,6 +18,7 @@ PasswordsModel::PasswordsModel(const QVector<Password> &passwords, QObject *pare
     : QAbstractTableModel(parent),
       passwordList(passwords)
 {
+
 }
 
 int PasswordsModel::rowCount(const QModelIndex &parent) const
@@ -98,7 +99,9 @@ bool PasswordsModel::setData(const QModelIndex &index, const QVariant &value, in
         default:
             return false;
         }
-        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+        if(sortEnabled){
+            std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+        }
         emit dataChanged(index, index);
         return true;
     }
@@ -128,7 +131,9 @@ bool PasswordsModel::setDataCustom(const QModelIndex &index, const QVariant &val
         default:
             return false;
         }
-        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+        if(sortEnabled){
+            std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+        }
         emit dataChanged(index, index);
         return true;
     }
@@ -139,7 +144,9 @@ void PasswordsModel::addEntity(Password password)
 {
     beginInsertRows(QModelIndex(),passwordList.size(),passwordList.size());
     passwordList.append(password);
-    std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+    if(sortEnabled){
+        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+    }
     endInsertRows();
 }
 
@@ -174,7 +181,9 @@ bool PasswordsModel::insertRows(int position, int rows, const QModelIndex &index
     for (int row = 0; row < rows; ++row)
         passwordList.insert(position, { QString(), QString(), QString(), QString() });
     endInsertRows();
-    std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+    if(sortEnabled){
+        std::sort(passwordList.begin(),passwordList.end(), frequencyGreaterThan);
+    }
     return true;
 }
 
@@ -196,3 +205,19 @@ QString PasswordsModel::maskPassword(int length){
     return characters;
 }
 
+bool PasswordsModel::moveItem(const QModelIndex &fromParent, int fromRow,
+                              const QModelIndex &toParent, int toRow,	 bool up)
+{
+    QModelIndex to = index(toRow, 0, toParent);
+    QModelIndex from = index(fromRow, 0, fromParent);
+    QPersistentModelIndex pCurrent = from;
+    changePersistentIndex(pCurrent, index(toRow, 0, toParent));
+    if (up)
+    {
+        removeRows(fromRow + 1, 1, fromParent);
+    }
+    else
+    {
+        removeRows(fromRow + 1, 1, fromParent);
+    }
+}
