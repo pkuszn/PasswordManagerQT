@@ -291,7 +291,7 @@ void PasswordManager::on_pushButton_5_clicked()
     QString originalText = clipboard->text();
     QModelIndex currentIndex = ui->tableView->selectionModel()->currentIndex();
     int numberOfClicks = currentIndex.data(3).toInt() + 1;
-    model.setDataCustom(currentIndex, frequency, 3);
+    model.setDataCustom(currentIndex, numberOfClicks, 3);
     clipboard->setText(currentIndex.data(2).toString());
 }
 
