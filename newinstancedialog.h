@@ -18,6 +18,10 @@ public:
 
 private:
     Ui::NewInstanceDialog *ui;
+    void configure();
+
+signals:
+    void updateTicksLabel(int ticks);
 
 signals:
     void sendInstance(QString service, QString login, QString password);
@@ -25,6 +29,8 @@ signals:
 private slots:
     void on_pushButton_clicked();
     void on_pushButton_3_clicked();
+    void on_horizontalSlider_valueChanged(int value);
+    void on_receivedTicks(int value);
 };
 
 #endif // NEWINSTANCEDIALOG_H

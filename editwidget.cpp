@@ -8,6 +8,7 @@ EditWidget::EditWidget(QWidget *parent) :
     ui(new Ui::EditWidget)
 {
     ui->setupUi(this);
+    configure();
 }
 
 EditWidget::~EditWidget()
@@ -32,5 +33,12 @@ void EditWidget::on_pushButton_clicked()
 void EditWidget::on_pushButton_2_clicked()
 {
     EditWidget::close();
+}
+
+void EditWidget::configure()
+{
+    QFont font;
+    font.setPointSize(15);
+    ui->label_5->setFont(font);
 }
 

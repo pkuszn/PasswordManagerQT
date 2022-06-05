@@ -14,6 +14,7 @@
 #include <QSortFilterProxyModel>
 #include <editwidget.h>
 #include <QClipboard>
+#include <qapplication.h>
 
 
 
@@ -36,7 +37,7 @@ PasswordManager::~PasswordManager()
 
 void PasswordManager::configure(){
     setWindowTitle("PasswordManager");
-    setLabel(*ui->label, 25, true, Qt::blue);
+    setLabel(*ui->label, 25, true, Qt::black);
     ui->tableView->setModel(&model);
     setColumnWidth(ui->tableView->width()-10);
     setLabel(*ui->label_6, 20, true, nullptr);
@@ -61,10 +62,7 @@ void PasswordManager::onSelectionChanged(const QItemSelection& selected, const Q
 
 void PasswordManager::setColumnWidth(int size)
 {
-    for (int col=0; col<20; col++)
-    {
-        ui->tableView->setColumnWidth(col,size);
-    }
+    ui->tableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void PasswordManager::setLabel(QLabel &label, int size, bool bold, QColor color)
@@ -300,6 +298,12 @@ void PasswordManager::on_pushButton_4_clicked()
 {
     QString filePath = QApplication::applicationDirPath() + "/main.txt";
     SaveToFile(filePath, model.getPasswords());
+    QApplication::quit();
+}
+
+
+void PasswordManager::on_actionExit_triggered()
+{
     QApplication::quit();
 }
 

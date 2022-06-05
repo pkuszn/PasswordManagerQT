@@ -27,6 +27,7 @@ private slots:
 
 private:
     Ui::EditWidget *ui;
+    void configure();
 };
 
 #endif // EDITWIDGET_H

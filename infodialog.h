@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::InfoDialog *ui;
+    void configure();
 };
 
 #endif // INFODIALOG_H
