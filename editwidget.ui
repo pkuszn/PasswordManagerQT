@@ -52,7 +52,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Edit new password</string>
+    <string>Edit password</string>
    </property>
   </widget>
   <widget class="Line" name="line">
