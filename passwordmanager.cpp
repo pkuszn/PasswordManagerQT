@@ -361,13 +361,10 @@ void PasswordManager::on_pushButton_7_clicked()
                                     selectedRow+1);
 }
 
-
-
 void PasswordManager::MoveRow(bool moveUp)
 {
 return;
 }
-
 
 void PasswordManager::on_checkBox_stateChanged(int arg1)
 {
